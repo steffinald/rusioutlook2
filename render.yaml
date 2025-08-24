@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: rusioutlook
+    env : docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: B2_APPLICATION_KEY_ID
+        value: b1ba8d088820
+      - key: B2_APPLICATION_KEY
+        value: 005bc94b1fe6a59579fba12ce956c5b88030ffc82d
+      - key: B2_BUCKET_NAME
+        value: rusioutlook-bucket
