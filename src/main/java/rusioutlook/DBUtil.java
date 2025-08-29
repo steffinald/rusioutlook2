@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DBUtil {
 
-    private static final String URL = "jdbc:mysql://10.252.255.45:3306/rusioutlook"; 
+    private static final String db_URL = "jdbc:mysql://localhost:3306/rusioutlook"; 
     private static final String USER = "rusiuser";  
     private static final String PASSWORD = "Steffin@2005";  
 
@@ -16,6 +16,6 @@ public class DBUtil {
         } catch (ClassNotFoundException e) {
             throw new SQLException("MySQL Driver not found", e);
         }
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        return DriverManager.getConnection(db_URL, USER, PASSWORD);
     }
 }
