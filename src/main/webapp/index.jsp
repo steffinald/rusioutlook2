@@ -44,7 +44,7 @@
 <%
 List<String> images = null;
 try {
-	 fileDAO fileDAO = new fileDAO();
+	
     images = fileDAO.getImageFiles();   // directly calling DAO
 } catch (Exception e) {
     e.printStackTrace();
@@ -68,8 +68,8 @@ if (images != null && !images.isEmpty()) {
 		<%
 List<String> videos = null;
 try {
-	 fileDAO fileJDBC = new fileDAO();
-    videos = fileJDBC.getVideoFiles();   // directly calling DAO
+	
+    videos = fileDAO.getVideoFiles();   // directly calling DAO
 } catch (Exception e) {
     e.printStackTrace();
 }
