@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class DBUtil {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/rusioutlook"; 
-    private static final String USER = "rusiuser";  
-    private static final String PASSWORD = "Steffin@2005";  
+    private static final String db_URL = "postgresql://postgres:[Rusi@2025%%]@db.guaybzqyicwyhmzunxmt.supabase.co:5432/postgres"; 
+    private static final String USER = "postgres";  
+    private static final String PASSWORD = "Rusi@2025%%";  
 
     public static Connection getConnection() throws SQLException {
         try {
@@ -16,6 +16,6 @@ public class DBUtil {
         } catch (ClassNotFoundException e) {
             throw new SQLException("MySQL Driver not found", e);
         }
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        return DriverManager.getConnection(db_URL, USER, PASSWORD);
     }
 }
