@@ -78,7 +78,7 @@ if (videos != null && !videos.isEmpty()) {
     for (String vid : videos) {
 %>
 		<div class="video-card" id="videoCard">
-			<video class="myVideo" controls>
+			<video class="myVideo" >
 				<source src="DownloadServlet?file=<%= vid %>" type="video/mp4">
 				Your browser does not support the video tag.
 			</video>
@@ -92,31 +92,6 @@ if (videos != null && !videos.isEmpty()) {
 		
 		
 		
-		
-		<div class="video-card" id="videoCard">
-			<video class="myVideo" controls>
-				<source src="playvideo?file=vid2.mp4" type="video/mp4">
-				Your browser does not support the video tag.
-			</video>
-		</div>
-		<div class="video-card" id="videoCard">
-			<video class="myVideo" controls>
-				<source src="playvideo?file=vid3.mp4" type="video/mp4">
-				Your browser does not support the video tag.
-			</video>
-		</div>
-		<div class="video-card" id="videoCard">
-			<video class="myVideo"  controls>
-				<source src="playvideo?file=trishavid.mp4" type="video/mp4">
-				Your browser does not support the video tag.
-			</video>
-		</div>
-		<div class="video-card" id="videoCard">
-			<video class="myVideo" controls>
-				<source src="playvideo?file=vid3.mp4" type="video/mp4">
-				Your browser does not support the video tag.
-			</video>
-		</div>
 		
 
 	</section>
