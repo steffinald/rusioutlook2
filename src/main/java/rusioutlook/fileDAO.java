@@ -32,4 +32,31 @@ public class fileDAO {
         con.close();
         return listvideo;
     }
+    
+    public static List<Detial> getMessageDetial() throws Exception{
+    	List<Detial> listmessage = new ArrayList<>();
+    	Connection con = DBUtil.getConnection();
+    	String query = "SELECT * FROM message";
+    	PreparedStatement ps = con.prepareStatement(query);
+    	ResultSet rs = ps.executeQuery();
+    	while(rs.next()) {
+    		String date = rs.getString("date");
+    		int id = rs.getInt("id");
+    		String name = rs.getString("name");
+    		String mobile = rs.getString("mobile");
+    		String state = rs.getString("state");
+    		String district = rs.getString("district");
+    		String address = rs.getString("address");
+    		String message = rs.getString("message");
+    		
+    		listmessage.add(new Detial(date,id,name,mobile,state,district,address,message));
+    		
+    	}
+    	rs.close();
+        ps.close();
+        con.close();
+
+        return listmessage;
+    }
+    
 }

@@ -99,25 +99,50 @@ if (videos != null && !videos.isEmpty()) {
 	
 	<section class="contact-section" id="contact-sec">
 		<div class="contact-part">
-			<form action="contact" class="contact-form">
+			<form method="post" action="contact" class="contact-form" >
 				<h1>Contact us</h1>
 				<label>Name</label>
-				<input type="text" placeholder="Enter your name">
+				<input type="text" placeholder="Enter your name" name="name" required>
 				<label>Mobile number</label>
-				<input type="number" placeholder="eg:7418029374" required">
+				<input type="number" name="mobile" placeholder="eg:7418029374" maxlength=10 pattern="\d{10}" required>
 				<label>State</label>
-				<input type="text" placeholder="Enter your State">
+				<input type="text" name="state" placeholder="Enter your State" required>
 				<label>District</label>
-				<input type="text" placeholder="Enter your district">
+				<input type="text" name="dist" placeholder="Enter your district" required>
 				<label>address</label>
-				<input type="text" placeholder="Enter your Address">
+				<input type="text" name="address" placeholder="Enter your Address" required>
 				<label>Message</label>
-				<textarea rows="6" cols="" placeholder="Enter a Message"></textarea>
+				<textarea rows="6" cols="" name="message" placeholder="Enter a Message" required></textarea>
 				<button type="submit">send message</button>
 			</form>
 		</div>
 	</section>
 	
+<%
+			String status = request.getParameter("status");
+			%>
+			<%
+			if ("success".equals(status)) {
+			%>
+			<div id="popup"
+				style="position: fixed; z-index: 1000000000; top: 80%; right: 40%; background: #4CAF50; color: white; padding: 15px; border-radius: 5px;">
+				✅ Message Send successfully!</div>
+			<%
+			} else if ("error".equals(status)){
+			%>
+			<div id="popup"
+				style="position: fixed; z-index: 1000000000; top: 80%; right: 40%; background: #f44336; color: white; padding: 15px; border-radius: 5px;">
+				❌ Failed to Send Message	!</div>
+			<%
+			}
+			%>
+			
+			<script>
+setTimeout(() => {
+    const popup = document.getElementById("popup");
+    if (popup) popup.style.display = "none";
+}, 2000);
+</script>
 	
 	<div class="footbox2">
             <a href="adminlogin.jsp "><i class="fa-solid fa-screwdriver-wrench"></i></a>

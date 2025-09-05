@@ -280,3 +280,30 @@ body {
 .contact-form textarea{
 	width:99.9999%;	
 }
+.msg{
+	background-color: #4CAF50;
+	color:white;
+	font-size:24px;
+	margin:30px;
+	padding :10px;
+	width:350px;
+	border-radius:10px;
+	border-color: white;
+}
+.detials-msg{
+	margin:30px;
+	width:350px;
+	font-size:18px;
+	border:1px solid black;
+	border-radius:10px;
+	padding:10px;
+}
+.detials-msg p{
+	margin:10px;
+}
+.date-in-msg{
+	text-align:right;
+}
+.msg-section{
+	margin-top:100px;
+}

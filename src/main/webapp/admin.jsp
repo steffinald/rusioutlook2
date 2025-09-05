@@ -42,6 +42,9 @@
 			</ul>
 		</div>
 	</section>
+	
+	
+	<a href="message.jsp"><button class="msg">Messages</button></a>
 
 	<section class="lo">
 		<div class="login-container">
@@ -93,6 +96,8 @@
 			<%
 			}
 			%>
+			
+		
 
 			<script>
 setTimeout(() => {
