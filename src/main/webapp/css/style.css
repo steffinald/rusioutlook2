@@ -118,6 +118,9 @@ body {
 	margin: auto;
     overflow: hidden;
     transition: all 0.3s ease;
+    border-radius:8px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+    height:220px;
 }
 .video-fullscreen {
     position: fixed;
@@ -133,7 +136,7 @@ body {
 }
 .video-fullscreen video {
     width: 100%;
-    height: fit-content;
+    height: 220px;
     object-fit: cover;
     justify-content: center;
 }
