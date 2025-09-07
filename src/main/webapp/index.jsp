@@ -98,6 +98,18 @@ if (videos != null && !videos.isEmpty()) {
 		<script src="https://www.youtube.com/iframe_api"></script>
 <script>
   let players = [];
+  
+  document.querySelectorAll('.myVideo').forEach(iframe => {
+	  iframe.addEventListener('click', () => {
+	    if (iframe.requestFullscreen) {
+	      iframe.requestFullscreen();
+	    } else if (iframe.webkitRequestFullscreen) {
+	      iframe.webkitRequestFullscreen();
+	    } else if (iframe.msRequestFullscreen) {
+	      iframe.msRequestFullscreen();
+	    }
+	  });
+	});
 
   // This gets called automatically by YouTube API
   function onYouTubeIframeAPIReady() {
