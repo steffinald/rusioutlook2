@@ -80,58 +80,90 @@ if (videos != null && !videos.isEmpty()) {
 		<div class="video-card" id="videoCard">
 			
 			
-			<iframe  class="myVideo" 
-			width="125" 
-    height="220"
-      src="https://www.youtube.com/embed/p5vdAZlz51Q?enablejsapi=1" 
-      title="YouTube video player"
-      frameborder="0" 
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-      allowfullscreen>
-    </iframe>
+			<!-- Thumbnail image -->
+    <img class="video-thumb" src="image/order_2.jpg" data-video="p5vdAZlz51Q" />
+
+    <!-- Hidden iframe -->
+    <div class="video-container" style="display:none;">
+        <iframe class="myVideo"
+                width="750" height="1500"
+                frameborder="0"
+                allow="autoplay; encrypted-media"
+                allowfullscreen>
+        </iframe>
+    </div>
 		</div>
 		<%
     }
 }
 %>
-		
-		<script src="https://www.youtube.com/iframe_api"></script>
+	
+<script src="https://www.youtube.com/iframe_api"></script>
 <script>
-  let players = [];
-  
-  document.querySelectorAll('.myVideo').forEach(iframe => {
-	  iframe.addEventListener('click', () => {
-	    if (iframe.requestFullscreen) {
-	      iframe.requestFullscreen();
-	    } else if (iframe.webkitRequestFullscreen) {
-	      iframe.webkitRequestFullscreen();
-	    } else if (iframe.msRequestFullscreen) {
-	      iframe.msRequestFullscreen();
-	    }
-	  });
-	});
+let players = [];
 
-  // This gets called automatically by YouTube API
-  function onYouTubeIframeAPIReady() {
-    document.querySelectorAll(".myVideo").forEach((iframe, index) => {
-      players[index] = new YT.Player(iframe, {
-        events: {
-          'onStateChange': (event) => {
-            if (event.data === YT.PlayerState.PLAYING) {
-              // Pause all other players
-              players.forEach((p, i) => {
-                if (i !== index && p.pauseVideo) {
-                  p.pauseVideo();
+// YouTube API ready
+function onYouTubeIframeAPIReady() {
+    document.querySelectorAll('.video-container .myVideo').forEach((iframe, index) => {
+        players[index] = new YT.Player(iframe, {
+            events: {
+                'onStateChange': (event) => {
+                    if (event.data === YT.PlayerState.PLAYING) {
+                        // Pause all other videos
+                        players.forEach((p, i) => {
+                            if (i !== index && p.pauseVideo) {
+                                p.pauseVideo();
+                            }
+                        });
+                    }
                 }
-              });
             }
-          }
-        }
-      });
+        });
     });
-  }
+}
+
+// Click on thumbnail to show video
+document.querySelectorAll('.video-thumb').forEach((img, index) => {
+    img.addEventListener('click', () => {
+        const videoId = img.getAttribute('data-video');
+        const container = img.nextElementSibling; // the hidden iframe container
+        const iframe = container.querySelector('.myVideo');
+
+        // Show iframe, hide thumbnail
+        container.style.display = 'block';
+        img.style.display = 'none';
+        iframe.classList.add("video-fullscreen");
+
+        // Create YouTube player if not created yet
+        if (!iframe.player) {
+            iframe.player = new YT.Player(iframe, {
+                videoId: videoId,
+                events: {
+                    'onReady': (event) => {
+                        event.target.playVideo(); // play after thumbnail click
+                    },
+                    'onStateChange': (event) => {
+                        if (event.data === YT.PlayerState.PLAYING) {
+                            // Pause all other videos
+                            players.forEach(p => {
+                                if (p !== iframe.player) p.pauseVideo();
+                            });
+                        }
+                    }
+                }
+            });
+            players.push(iframe.player);
+        } else {
+            // If player already exists, just load and play
+            iframe.player.loadVideoById(videoId);
+            iframe.player.playVideo();
+        }
+    });
+});
+
+
 </script>
-		
+
 		
 		
 		
