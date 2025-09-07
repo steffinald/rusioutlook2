@@ -6,7 +6,7 @@ RUN rm -rf /usr/local/tomcat/webapps/ROOT
 
 # Copy your WAR file into Tomcat
 # (Maven usually generates WAR in target/)
-COPY rusioutlook.war /usr/local/tomcat/webapps/ROOT.war
+COPY rusioutlook2.war /usr/local/tomcat/webapps/ROOT.war
 
 # Expose Render's port (8080)
 EXPOSE 8080
