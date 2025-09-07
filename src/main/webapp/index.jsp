@@ -78,16 +78,47 @@ if (videos != null && !videos.isEmpty()) {
     for (String vid : videos) {
 %>
 		<div class="video-card" id="videoCard">
-			<video class="myVideo" >
-				<source src="DownloadServlet?file=<%= vid %>" type="video/mp4">
-				Your browser does not support the video tag.
-			</video>
+			
+			
+			<iframe  class="myVideo" 
+			width="125" 
+    height="220"
+      src="https://www.youtube.com/embed/p5vdAZlz51Q?enablejsapi=1" 
+      title="YouTube video player"
+      frameborder="0" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+      allowfullscreen>
+    </iframe>
 		</div>
 		<%
     }
 }
 %>
 		
+		<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+  let players = [];
+
+  // This gets called automatically by YouTube API
+  function onYouTubeIframeAPIReady() {
+    document.querySelectorAll(".myVideo").forEach((iframe, index) => {
+      players[index] = new YT.Player(iframe, {
+        events: {
+          'onStateChange': (event) => {
+            if (event.data === YT.PlayerState.PLAYING) {
+              // Pause all other players
+              players.forEach((p, i) => {
+                if (i !== index && p.pauseVideo) {
+                  p.pauseVideo();
+                }
+              });
+            }
+          }
+        }
+      });
+    });
+  }
+</script>
 		
 		
 		
