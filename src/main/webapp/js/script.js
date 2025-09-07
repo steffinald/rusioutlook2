@@ -62,7 +62,7 @@ document.querySelectorAll('#sideNav .nav-link').forEach(link => {
 
 
 
-/*video part*//*
+/*video part*/
 document.addEventListener('DOMContentLoaded', function () {
     let startX, startY;
     let currentIndex = 0;
@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function () {
         exitButton.addEventListener('click', exitFullscreen);
         exitButton.style.display = 'none'; // Hide by default
     }
-});*/
+});
 
 /*
 let startX, startY;
