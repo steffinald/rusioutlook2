@@ -97,7 +97,6 @@ if (videos != null && !videos.isEmpty()) {
     }
 }
 %>
-	
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
 let players = [];
@@ -121,30 +120,31 @@ function onYouTubeIframeAPIReady() {
         });
     });
 }
-
-// Click on thumbnail to show video
+//Click on thumbnail to show video
 document.querySelectorAll('.video-thumb').forEach((img, index) => {
     img.addEventListener('click', () => {
         const videoId = img.getAttribute('data-video');
         const container = img.nextElementSibling; // the hidden iframe container
         const iframe = container.querySelector('.myVideo');
-
+        
         // Show iframe, hide thumbnail
         container.style.display = 'block';
         img.style.display = 'none';
         iframe.classList.add("video-fullscreen");
 
-        // Create YouTube player if not created yet
+        // Show back button
+        document.getElementById("exitFullscreenBtn").style.display = "block";
+
+        // Initialize YouTube Player if not already
         if (!iframe.player) {
             iframe.player = new YT.Player(iframe, {
                 videoId: videoId,
                 events: {
                     'onReady': (event) => {
-                        event.target.playVideo(); // play after thumbnail click
+                        event.target.playVideo(); // ✅ autoplay works here
                     },
                     'onStateChange': (event) => {
                         if (event.data === YT.PlayerState.PLAYING) {
-                            // Pause all other videos
                             players.forEach(p => {
                                 if (p !== iframe.player) p.pauseVideo();
                             });
@@ -154,13 +154,35 @@ document.querySelectorAll('.video-thumb').forEach((img, index) => {
             });
             players.push(iframe.player);
         } else {
-            // If player already exists, just load and play
             iframe.player.loadVideoById(videoId);
-            iframe.player.playVideo();
+            iframe.player.playVideo(); // ✅ ensures autoplay
         }
     });
 });
 
+// ✅ Exit fullscreen button logic
+document.getElementById("exitFullscreenBtn").addEventListener("click", () => {
+    const openVideo = document.querySelector(".video-container[style*='display: block']");
+    
+    if (openVideo) {
+        const iframe = openVideo.querySelector("iframe");
+        const thumb = openVideo.previousElementSibling;
+
+        // Stop the video safely
+        if (iframe.player && typeof iframe.player.stopVideo === "function") {
+            iframe.player.stopVideo();
+        } else {
+            iframe.src = ""; // fallback if not yet initialized
+        }
+
+        // Hide iframe, show thumbnail
+        openVideo.style.display = "none";
+        thumb.style.display = "block";
+
+        // ✅ Hide back button again
+        document.getElementById("exitFullscreenBtn").style.display = "none";
+    }
+});
 
 </script>
 
