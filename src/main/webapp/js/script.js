@@ -19,14 +19,12 @@ document.querySelectorAll('#sideNav .nav-link').forEach(link => {
 
 /*video part*//*
 document.addEventListener('DOMContentLoaded', function () {
-    let startX, startY;
-    let currentIndex = 0;
     const videos = document.querySelectorAll('.video-card');
     const exitButton = document.getElementById('exitFullscreenBtn');
 
     const updateButtonVisibility = () => {
         // Show button only if any video is fullscreen
-        const isAnyFullscreen = document.querySelector('.video-fullscreen') !== null;
+        const isAnyFullscreen = document.querySelector(".video-container[style*='display: block']");
         if (exitButton) {
             exitButton.style.display = isAnyFullscreen ? 'block' : 'none';
         }
@@ -236,3 +234,27 @@ document.getElementById("video-navigate").addEventListener("click", () => {
 document.getElementById("contact-navigate").addEventListener("click", () => {
     document.getElementById("contact-sec").scrollIntoView({ behavior: "smooth" });
 });
+
+
+function updateButtonVisibility() {
+    const isAnyFullscreen =
+        document.querySelector('.video-container[style*="display: block"]') !== null ||
+        document.querySelector('.photo-fullscreen') !== null;
+
+    const exitButton = document.getElementById("exitFullscreenBtn");
+    if (exitButton) {
+        exitButton.style.display = isAnyFullscreen ? "block" : "none";
+    }
+}
+
+const backBtn = document.getElementById("exitFullscreenBtn");
+
+function showBackBtn() {
+    backBtn.style.display = "block";
+    console.log("Back button shown");
+}
+
+function hideBackBtn() {
+    backBtn.style.display = "none";
+    console.log("Back button hidden");
+}

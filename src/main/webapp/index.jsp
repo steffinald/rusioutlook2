@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RUSI</title>
-<link rel="image" type="image/png"
+<link rel="icon" type="image/png"
 	href="image/rusilogo-removebg-preview.png">
 <link rel="stylesheet"
 	href="css/style.css?v=<%=System.currentTimeMillis()%>">
@@ -21,7 +21,7 @@
 </head>
 <body>
 
-<div class="back-btn" id="exitFullscreenBtn">
+<div class="back-btn" id="exitFullscreenBtn" style="display:none;">
 	<i class="fa-solid fa-arrow-left" ></i>
 </div>
 
@@ -85,8 +85,10 @@ if (videos != null && !videos.isEmpty()) {
 
     <!-- Hidden iframe -->
     <div class="video-container" style="display:none;">
-        <iframe class="myVideo"
-                width="750" height="1500"
+        <iframe id="video_<%=videos.indexOf(vid)%>"
+        		class="myVideo"
+                width="750" height="1500"	
+                src="https://www.youtube.com/embed/p5vdAZ1z51Q?enablejsapi=1&rel=0"
                 frameborder="0"
                 allow="autoplay; encrypted-media"
                 allowfullscreen>
@@ -97,94 +99,189 @@ if (videos != null && !videos.isEmpty()) {
     }
 }
 %>
+
+<!--
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
 let players = [];
 
-// YouTube API ready
-function onYouTubeIframeAPIReady() {
-    document.querySelectorAll('.video-container .myVideo').forEach((iframe, index) => {
-        players[index] = new YT.Player(iframe, {
-            events: {
-                'onStateChange': (event) => {
-                    if (event.data === YT.PlayerState.PLAYING) {
-                        // Pause all other videos
-                        players.forEach((p, i) => {
-                            if (i !== index && p.pauseVideo) {
-                                p.pauseVideo();
-                            }
-                        });
-                    }
-                }
-            }
-        });
-    });
-}
-//Click on thumbnail to show video
+// YouTube API ready/*
+
+// ✅ Click thumbnail to show video
 document.querySelectorAll('.video-thumb').forEach((img, index) => {
     img.addEventListener('click', () => {
         const videoId = img.getAttribute('data-video');
-        const container = img.nextElementSibling; // the hidden iframe container
+        const container = img.nextElementSibling;
         const iframe = container.querySelector('.myVideo');
+
+        // Hide ALL other open videos and reset back button
+        document.querySelectorAll('.video-container').forEach(vc => {
+            vc.style.display = 'none';
+            vc.previousElementSibling.style.display = 'block'; // show thumbnail again
+            const ifr = vc.querySelector('iframe');
+            if (ifr.player && ifr.player.stopVideo) {
+                ifr.player.stopVideo();
+            }
+        });
         
-        // Show iframe, hide thumbnail
+
+        // Show this one
         container.style.display = 'block';
         img.style.display = 'none';
         iframe.classList.add("video-fullscreen");
+        showBackBtn();
 
-        // Show back button
-        document.getElementById("exitFullscreenBtn").style.display = "block";
-
-        // Initialize YouTube Player if not already
+        // Create player if not exists
         if (!iframe.player) {
-            iframe.player = new YT.Player(iframe, {
+            const player = new YT.Player(`video_${index}`, {
                 videoId: videoId,
                 events: {
-                    'onReady': (event) => {
-                        event.target.playVideo(); // ✅ autoplay works here
-                    },
+                    'onReady': (event) => event.target.playVideo(),
                     'onStateChange': (event) => {
                         if (event.data === YT.PlayerState.PLAYING) {
                             players.forEach(p => {
-                                if (p !== iframe.player) p.pauseVideo();
+                                if (p !== player) p.pauseVideo();
                             });
                         }
                     }
                 }
             });
-            players.push(iframe.player);
+            players[index] = player;
+            iframe.player = player;
         } else {
             iframe.player.loadVideoById(videoId);
-            iframe.player.playVideo(); // ✅ ensures autoplay
+            iframe.player.playVideo();
         }
     });
 });
 
-// ✅ Exit fullscreen button logic
+// ✅ Exit fullscreen button
 document.getElementById("exitFullscreenBtn").addEventListener("click", () => {
     const openVideo = document.querySelector(".video-container[style*='display: block']");
-    
     if (openVideo) {
         const iframe = openVideo.querySelector("iframe");
         const thumb = openVideo.previousElementSibling;
 
-        // Stop the video safely
-        if (iframe.player && typeof iframe.player.stopVideo === "function") {
+        if (iframe.player && iframe.player.stopVideo) {
             iframe.player.stopVideo();
-        } else {
-            iframe.src = ""; // fallback if not yet initialized
         }
 
-        // Hide iframe, show thumbnail
         openVideo.style.display = "none";
         thumb.style.display = "block";
-
-        // ✅ Hide back button again
-        document.getElementById("exitFullscreenBtn").style.display = "none";
     }
+
+    // Always hide the button
+    hideBackBtn();
 });
 
+</script>-->
+
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+let players = [];
+let currentIndex = null;
+let exitButton;
+
+// ✅ Helpers
+function viewBackBtn() {
+    if (exitButton) exitButton.style.display = "block";
+}
+function hideBackBtn() {
+    if (exitButton) exitButton.style.display = "none";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    exitButton = document.getElementById("exitFullscreenBtn");
+    hideBackBtn(); // hidden by default
+
+    // ✅ Click thumbnail to show video
+    document.querySelectorAll(".video-thumb").forEach((img, index) => {
+        img.addEventListener("click", () => {
+            const videoId = img.getAttribute("data-video");
+            const container = img.nextElementSibling;
+            const iframe = container.querySelector("iframe");
+
+            // Hide all other videos
+            document.querySelectorAll(".video-container").forEach(vc => {
+                vc.style.display = "none";
+                vc.previousElementSibling.style.display = "block";
+                const ifr = vc.querySelector("iframe");
+                if (ifr.player && ifr.player.stopVideo) {
+                    ifr.player.stopVideo();
+                }
+                ifr.classList.remove("video-fullscreen");
+            });
+
+            // Show this video fullscreen
+            container.style.display = "block";
+            img.style.display = "none";
+            iframe.classList.add("video-fullscreen");
+            currentIndex = index;
+            viewBackBtn();
+
+            // Create YouTube player if not exists
+            if (!iframe.player) {
+                const player = new YT.Player(iframe.id, {
+                    videoId: videoId,
+                    events: {
+                        onReady: (event) => event.target.playVideo(),
+                        onStateChange: (event) => {
+                            if (event.data === YT.PlayerState.PLAYING) {
+                                players.forEach(p => {
+                                    if (p !== event.target) p.pauseVideo();
+                                });
+                            }
+                        }
+                    }
+                });
+                players[index] = player;
+                iframe.player = player;
+            } else if (iframe.player && typeof iframe.player.loadVideoById === "function") {
+                // Only call if the API is ready
+                iframe.player.loadVideoById(videoId);
+                iframe.player.playVideo();
+            }
+        });
+    });
+
+    // ✅ Toggle play/pause on video click
+    document.querySelectorAll(".myVideo").forEach(iframe => {
+        iframe.addEventListener("click", () => {
+            if (iframe.player) {
+                const state = iframe.player.getPlayerState();
+                if (state === YT.PlayerState.PLAYING) {
+                    iframe.player.pauseVideo();
+                } else {
+                    iframe.player.playVideo();
+                }
+            }
+        });
+    });
+
+    // ✅ Exit fullscreen button
+    if (exitButton) {
+        exitButton.addEventListener("click", () => {
+            const openVideo = document.querySelector(".video-container[style*='display: block']");
+            if (openVideo) {
+                const iframe = openVideo.querySelector("iframe");
+                const thumb = openVideo.previousElementSibling;
+
+                if (iframe.player && iframe.player.stopVideo) {
+                    iframe.player.stopVideo();
+                }
+
+                openVideo.style.display = "none";
+                iframe.classList.remove("video-fullscreen");
+                thumb.style.display = "block";
+            }
+
+            hideBackBtn();
+        });
+    }
+});
 </script>
+
 
 		
 		

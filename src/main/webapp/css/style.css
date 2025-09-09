@@ -8,6 +8,10 @@ body {
         background-color: #f5f5f5;
         margin-top: 72px;
     }
+    
+    #exitFullscreenBtn {
+    display: none;
+}
 .back-btn{
 	z-index:9999999;
 	top:20px;
