@@ -9,6 +9,7 @@ body {
         margin-top: 72px;
     }
     
+    
     #exitFullscreenBtn {
     display: none;
 }
@@ -55,8 +56,8 @@ body {
 	z-index:999;
 	position:fixed;
 	top:72px;
-	left:-350px;
-	transition: left 0.3s ease;
+	left:-1500px;
+	transition: left 0.6s ease;
 }
 .side-nav ul li{
 	font-size: 26px;
@@ -100,6 +101,11 @@ body {
 	        border-radius: 8px;
 	        box-shadow: 0 3px 6px rgba(0,0,0,0.5);
         transition: transform 0.3s ease;
+}
+@media (min-width: 1025px) {
+  .photo-card img {
+    height:400px;
+  }
 }
 .video-thumb{
 	width: 100%;
