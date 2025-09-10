@@ -59,4 +59,31 @@ public class fileDAO {
         return listmessage;
     }
     
+    public static List<String> getImageFileslink() throws Exception {
+        List<String> listimage = new ArrayList<>();
+        Connection con = DBUtil.getConnection();
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery("SELECT link FROM filelink where mediatype='image';");
+        while (rs.next()) {
+        	listimage.add(rs.getString("link"));
+        }
+        rs.close();
+        st.close();
+        con.close();
+        return listimage;
+    }
+    
+    public static List<String> getVideoFileslink() throws Exception {
+        List<String> listvideo = new ArrayList<>();
+        Connection con = DBUtil.getConnection();
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery("SELECT link FROM filelink where mediatype='video';");
+        while (rs.next()) {
+        	listvideo.add(rs.getString("link"));
+        }
+        rs.close();
+        st.close();
+        con.close();
+        return listvideo;
+    }
 }

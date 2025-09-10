@@ -181,6 +181,14 @@ body {
 	align-items: center;
 }
 
+.log {
+	padding:30px;
+	display: grid;
+	justify-content: center;
+	align-items: center;
+	gap:50px;
+}
+
 .login-container {
 	background: linear-gradient(to right, #3eecec, #c4f5fd);
 	padding: 2rem;

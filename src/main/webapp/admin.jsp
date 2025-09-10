@@ -45,11 +45,13 @@
 	
 	
 	<a href="message.jsp"><button class="msg">Messages</button></a>
+	
+	
 
-	<section class="lo">
+	<section class="log" >
 		<div class="login-container">
 			<form action="UploadServlet" method="post" enctype="multipart/form-data" class="login-form">
-				<h2>Select the media file</h2>
+				<h2>Upload via media file</h2>
 				<label> <input style="width:20px; height:20px;" type="radio" name="mediaType" value="image"
 					checked> Image
 				</label> <label> <input style="width:20px; height:20px;" type="radio" name="mediaType" value="video">
@@ -57,6 +59,20 @@
 				</label>
 
 				<input type="file" name="file" id="fileInput" accept="image/*" required>
+				
+				<button type="submit">Add</button>
+			</form>
+		</div>
+		<div class="login-container">
+			<form action="UploadServletLink" method="post"  class="login-form">
+				<h2>Upload via Link</h2>
+				<label> <input style="width:20px; height:20px;" type="radio" name="mediaType" value="image"
+					checked> Image
+				</label> <label> <input style="width:20px; height:20px;" type="radio" name="mediaType" value="video">
+					Video
+				</label>
+
+				<input type="text" name="link" required>
 				
 				<button type="submit">Add</button>
 			</form>

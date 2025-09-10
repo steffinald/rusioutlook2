@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ page import="java.util.*" %>
-	<%@ page import="java.util.List" %>
-<%@ page import="rusioutlook.fileDAO" %>
+<%@ page import="java.util.*"%>
+<%@ page import="java.util.List"%>
+<%@ page import="rusioutlook.fileDAO"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,16 +21,16 @@
 </head>
 <body>
 
-<div class="back-btn" id="exitFullscreenBtn" style="display:none;">
-	<i class="fa-solid fa-arrow-left" ></i>
-</div>
+	<div class="back-btn" id="exitFullscreenBtn" style="display: none;">
+		<i class="fa-solid fa-arrow-left"></i>
+	</div>
 
 	<section>
 		<div class="nav-bar">
-			<img alt="" src="image/rusilogo-removebg-preview.png"> 
-			<i onclick="toggleSidebar()" class="fa-solid fa-bars" id="menu"></i>
+			<img alt="" src="image/rusilogo-removebg-preview.png"> <i
+				onclick="toggleSidebar()" class="fa-solid fa-bars" id="menu"></i>
 		</div>
-		<div class="side-nav" id="sideNav"> 
+		<div class="side-nav" id="sideNav">
 			<ul>
 				<a><li id="photo-navigate" class="nav-link">photos</li></a>
 				<a><li id="video-navigate" class="nav-link">videos</li></a>
@@ -39,56 +39,67 @@
 		</div>
 	</section>
 	<section class="photo" id="photo-sec">
-	
-	
+
+
+		<%
+		List<String> images = null;
+		try {
+			fileDAO dao = new fileDAO();
+			images = dao.getImageFileslink(); // directly calling DAO
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		if (images != null && !images.isEmpty()) {
+			for (String img : images) {
+		%>
+		<div class="photo-card">
+			<img class="myphoto" src="<%=img%>">
+		</div>
+		<%
+		}
+		}
+		%>
+
+	</section>
+
+	<section class="video" id="video-sec">
+
 <%
-List<String> images = null;
+List<String> video = null;
 try {
 	fileDAO dao =new  fileDAO();
-    images = dao.getImageFiles();   // directly calling DAO
+    video = dao.getVideoFileslink();   // directly calling DAO
 } catch (Exception e) {
     e.printStackTrace();
 }
 
-if (images != null && !images.isEmpty()) {
-    for (String img : images) {
+if (video != null && !video.isEmpty()) {
+    for (String vid : video) {
 %>
-        <div class="photo-card">
-            <img class="myphoto" src="DownloadServlet?file=<%= img %>">
-        </div>
-<%
-    }
-}
-%>
-	
-	</section>
 
-	<section class="video" id="video-sec">
-	
-  	
 		<div class="video-card" id="videoCard">
-			
-			
+
+
 			<!-- Thumbnail image -->
-    <img class="video-thumb" src="https://img.youtube.com/vi/p5vdAZlz51Q/maxresdefault.jpg"
-    onerror="this.src='image/order_2.jpg';"
-     data-video="p5vdAZlz51Q">
+			<img class="video-thumb"
+				src="https://img.youtube.com/vi/<%=vid %>/maxresdefault.jpg"
+				onerror="this.src='image/order_2.jpg';" data-video="<%=vid %>">
 
-    <!-- Hidden iframe -->
-    <div class="video-container" style="display:none;">
-        <iframe id="video_1"
-        		class="myVideo"
-                width="750" height="1500"	
-                src="https://www.youtube.com/embed/p5vdAZlz51Q?enablejsapi=1&rel=0"
-                frameborder="0"
-                allow="autoplay; encrypted-media"
-                allowfullscreen>
-        </iframe>
-    </div>
+			<!-- Hidden iframe -->
+			<div class="video-container" style="display: none;">
+				<iframe id="video_1" class="myVideo" width="750" height="1500"
+					src="https://www.youtube.com/embed/<%=vid %>?enablejsapi=1&rel=0"
+					frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+				</iframe>
+			</div>
 		</div>
-		
+<%
+		}
+		}
+		%>
 
-<!--
+		<!--
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
 let players = [];
@@ -165,8 +176,8 @@ document.getElementById("exitFullscreenBtn").addEventListener("click", () => {
 </script>-->
 
 
-<script src="https://www.youtube.com/iframe_api"></script>
-<script>
+		<script src="https://www.youtube.com/iframe_api"></script>
+		<script>
 let players = [];
 let currentIndex = null;
 let exitButton;
@@ -270,65 +281,65 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
 
-		
-		
-		
-		
+
+
+
+
 
 	</section>
-	
-	
+
+
 	<section class="contact-section" id="contact-sec">
 		<div class="contact-part">
-			<form method="post" action="contact" class="contact-form" >
+			<form method="post" action="contact" class="contact-form">
 				<h1>Contact us</h1>
-				<label>Name</label>
-				<input type="text" placeholder="Enter your name" name="name" required>
-				<label>Mobile number</label>
-				<input type="number" name="mobile" placeholder="eg:7418029374" maxlength=10 pattern="\d{10}" required>
-				<label>State</label>
-				<input type="text" name="state" placeholder="Enter your State" required>
-				<label>District</label>
-				<input type="text" name="dist" placeholder="Enter your district" required>
-				<label>address</label>
-				<input type="text" name="address" placeholder="Enter your Address" required>
-				<label>Message</label>
-				<textarea rows="6" cols="" name="message" placeholder="Enter a Message" required></textarea>
+				<label>Name</label> <input type="text" placeholder="Enter your name"
+					name="name" required> <label>Mobile number</label> <input
+					type="number" name="mobile" placeholder="eg:7418029374"
+					maxlength=15 pattern="\d{10}" required> <label>State</label>
+				<input type="text" name="state" placeholder="Enter your State"
+					required> <label>District</label> <input type="text"
+					name="dist" placeholder="Enter your district" required> <label>address</label>
+				<input type="text" name="address" placeholder="Enter your Address"
+					required> <label>Message</label>
+				<textarea rows="6" cols="" name="message"
+					placeholder="Enter a Message" required></textarea>
 				<button type="submit">send message</button>
 			</form>
 		</div>
 	</section>
-	
-<%
-			String status = request.getParameter("status");
-			%>
-			<%
-			if ("success".equals(status)) {
-			%>
-			<div id="popup"
-				style="position: fixed; z-index: 1000000000; top: 80%; right: 40%; background: #4CAF50; color: white; padding: 15px; border-radius: 5px;">
-				✅ Message Send successfully!</div>
-			<%
-			} else if ("error".equals(status)){
-			%>
-			<div id="popup"
-				style="position: fixed; z-index: 1000000000; top: 80%; right: 40%; background: #f44336; color: white; padding: 15px; border-radius: 5px;">
-				❌ Failed to Send Message	!</div>
-			<%
-			}
-			%>
-			
-			<script>
+
+	<%
+	String status = request.getParameter("status");
+	%>
+	<%
+	if ("success".equals(status)) {
+	%>
+	<div id="popup"
+		style="position: fixed; z-index: 1000000000; top: 80%; right: 40%; background: #4CAF50; color: white; padding: 15px; border-radius: 5px;">
+		✅ Message Send successfully!</div>
+	<%
+	} else if ("error".equals(status)) {
+	%>
+	<div id="popup"
+		style="position: fixed; z-index: 1000000000; top: 80%; right: 40%; background: #f44336; color: white; padding: 15px; border-radius: 5px;">
+		❌ Failed to Send Message !</div>
+	<%
+	}
+	%>
+
+	<script>
 setTimeout(() => {
     const popup = document.getElementById("popup");
     if (popup) popup.style.display = "none";
 }, 2000);
 </script>
-	
+
 	<div class="footbox2">
-            <a href="adminlogin.jsp "><i class="fa-solid fa-screwdriver-wrench"></i></a>
-        </div>
-	
-<script src="js/script.js?v=<%=System.currentTimeMillis() %>"></script>
+		<a href="adminlogin.jsp "><i
+			class="fa-solid fa-screwdriver-wrench"></i></a>
+	</div>
+
+	<script src="js/script.js?v=<%=System.currentTimeMillis()%>"></script>
 </body>
 </html>
