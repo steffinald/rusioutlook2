@@ -65,40 +65,28 @@ if (images != null && !images.isEmpty()) {
 
 	<section class="video" id="video-sec">
 	
-		<%
-List<String> videos = null;
-try {
-	fileDAO dao =new  fileDAO();
-    videos = dao.getVideoFiles();   // directly calling DAO
-} catch (Exception e) {
-    e.printStackTrace();
-}
-
-if (videos != null && !videos.isEmpty()) {
-    for (String vid : videos) {
-%>
+  	
 		<div class="video-card" id="videoCard">
 			
 			
 			<!-- Thumbnail image -->
-    <img class="video-thumb" src="image/order_2.jpg" data-video="p5vdAZlz51Q" />
+    <img class="video-thumb" src="https://img.youtube.com/vi/p5vdAZlz51Q/maxresdefault.jpg"
+    onerror="this.src='image/order_2.jpg';"
+     data-video="p5vdAZlz51Q">
 
     <!-- Hidden iframe -->
     <div class="video-container" style="display:none;">
-        <iframe id="video_<%=videos.indexOf(vid)%>"
+        <iframe id="video_1"
         		class="myVideo"
                 width="750" height="1500"	
-                src="https://www.youtube.com/embed/p5vdAZ1z51Q?enablejsapi=1&rel=0"
+                src="https://www.youtube.com/embed/p5vdAZlz51Q?enablejsapi=1&rel=0"
                 frameborder="0"
                 allow="autoplay; encrypted-media"
                 allowfullscreen>
         </iframe>
     </div>
 		</div>
-		<%
-    }
-}
-%>
+		
 
 <!--
 <script src="https://www.youtube.com/iframe_api"></script>
@@ -190,7 +178,6 @@ function viewBackBtn() {
 function hideBackBtn() {
     if (exitButton) exitButton.style.display = "none";
 }
-
 document.addEventListener("DOMContentLoaded", () => {
     exitButton = document.getElementById("exitFullscreenBtn");
     hideBackBtn(); // hidden by default
