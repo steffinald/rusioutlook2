@@ -19,6 +19,7 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
 	rel="stylesheet">
+<meta name="google-site-verification" content="HH_13gn5BFWA1no-ziLJD2syAwe9wFolkTJF4LzVWCc" />
 </head>
 <body>
 
@@ -66,36 +67,36 @@
 
 	<section class="video" id="video-sec">
 
-<%
-List<String> video = null;
-try {
-	fileDAO dao =new  fileDAO();
-    video = dao.getVideoFileslink();   // directly calling DAO
-} catch (Exception e) {
-    e.printStackTrace();
-}
+		<%
+		List<String> video = null;
+		try {
+			fileDAO dao = new fileDAO();
+			video = dao.getVideoFileslink(); // directly calling DAO
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-if (video != null && !video.isEmpty()) {
-    for (String vid : video) {
-%>
+		if (video != null && !video.isEmpty()) {
+			for (String vid : video) {
+		%>
 
 		<div class="video-card" id="videoCard">
 
 
 			<!-- Thumbnail image -->
 			<img class="video-thumb"
-				src="https://img.youtube.com/vi/<%=vid %>/maxresdefault.jpg"
-				onerror="this.src='image/order_2.jpg';" data-video="<%=vid %>">
+				src="https://img.youtube.com/vi/<%=vid%>/maxresdefault.jpg"
+				onerror="this.src='image/order_2.jpg';" data-video="<%=vid%>">
 
 			<!-- Hidden iframe -->
 			<div class="video-container" style="display: none;">
 				<iframe id="video_1" class="myVideo" width="750" height="1500"
-					src="https://www.youtube.com/embed/<%=vid %>?enablejsapi=1&rel=0"
+					src="https://www.youtube.com/embed/<%=vid%>?enablejsapi=1&rel=0"
 					frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
 				</iframe>
 			</div>
 		</div>
-<%
+		<%
 		}
 		}
 		%>
