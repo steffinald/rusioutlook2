@@ -6,6 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="google-site-verification" content="HH_13gn5BFWA1no-ziLJD2syAwe9wFolkTJF4LzVWCc" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
